@@ -1,0 +1,31 @@
+{
+  "name": "softtseek",
+  "version": "0.1.0",
+  "description": "CLI for the SoFTTSeek P2P file-sharing network",
+  "type": "module",
+  "bin": { "softtseek": "./dist/cli.js" },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build && bash ../../scripts/pre-publish-guard.sh"
+  },
+  "dependencies": {
+    "@softtseek/overlay-client": "^0.1.0",
+    "blake3-wasm": "^2.0.0",
+    "commander": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": { "node": ">=18" },
+  "repository": { "type": "git", "url": "https://github.com/softtseek/cli" },
+  "license": "MIT",
+  "publishConfig": { "access": "public" }
+}
