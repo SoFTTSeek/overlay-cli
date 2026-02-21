@@ -31,7 +31,9 @@ export function registerDownloadCommand(program: Command): void {
         const isIndex = /^\d+$/.test(target);
 
         if (isIndex) {
-          const resolved = await resolveDownloadTarget(target);
+          const client = await getClient();
+          const onlineProviders = await client.getOnlineProviders();
+          const resolved = await resolveDownloadTarget(target, onlineProviders);
           if (!resolved) {
             process.stderr.write(
               `Error: No cached search result at index ${target}. Run "softtseek search" first.\n`,

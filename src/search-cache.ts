@@ -57,10 +57,15 @@ export async function loadSearchResults(): Promise<
  * Resolve a 1-based index string (e.g. "3") to a download target
  * using the cached search results.
  *
+ * When onlineProviders is a Set, prefers a provider whose pubKey is in the set.
+ * Falls back to the first provider with a pubKey if none are online.
+ * When onlineProviders is null (relays unreachable), uses original behavior.
+ *
  * Returns null if the index is out of range or the cache is empty/missing.
  */
 export async function resolveDownloadTarget(
   indexStr: string,
+  onlineProviders?: Set<string> | null,
 ): Promise<DownloadTarget | null> {
   const index = parseInt(indexStr, 10);
   if (isNaN(index) || index < 1) return null;
@@ -69,7 +74,19 @@ export async function resolveDownloadTarget(
   const entry = cached.find(e => e.index === index);
   if (!entry) return null;
 
-  // Pick the first provider that has a public key
+  // If we have online status, prefer an online provider
+  if (onlineProviders) {
+    const onlineProvider = entry.providers.find(p => p.pubKey && onlineProviders.has(p.pubKey));
+    if (onlineProvider?.pubKey) {
+      return {
+        contentHash: entry.contentHash,
+        providerPubKey: onlineProvider.pubKey,
+        filename: entry.filename,
+      };
+    }
+  }
+
+  // Fall back to the first provider with a pubKey
   const provider = entry.providers.find(p => p.pubKey);
   if (!provider?.pubKey) return null;
 
