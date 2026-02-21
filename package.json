@@ -1,6 +1,6 @@
 {
   "name": "softtseek",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "CLI for the SoFTTSeek P2P file-sharing network",
   "type": "module",
   "bin": { "softtseek": "./dist/cli.js" },
