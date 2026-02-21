@@ -19,7 +19,7 @@ const program = new Command();
 program
   .name('softtseek')
   .description('CLI for the SoFTTSeek P2P file-sharing network')
-  .version('0.1.0');
+  .version('0.1.1');
 
 // Register commands
 registerInitCommand(program);
